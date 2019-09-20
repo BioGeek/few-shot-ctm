@@ -1,5 +1,5 @@
 from tools.general_utils import *
-
+import torch
 
 class Config(object):
 
@@ -244,9 +244,7 @@ class Config(object):
         multi_gpu = True if len(self.ctrl.gpu_id) > 1 else False
         self.logger('gpu_ids: {}\n'.format(self.ctrl.gpu_id))
         self.ctrl.multi_gpu = multi_gpu
-        # for demo purpose
-        self.ctrl.device = 'cpu'
-        # self.ctrl.device = 'cuda'
+        self.ctrl.device = 'cuda' if torch.cuda.is_available() else 'cpu'
 
     def _sanity_check(self):
 
