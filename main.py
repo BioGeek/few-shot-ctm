@@ -145,7 +145,10 @@ def main():
                 break
 
             support_x, support_y, query_x, query_y = process_input(batch, opts, mode='train')
-            loss, _ = net.forward_CTM(support_x, support_y, query_x, query_y, True)
+            if opts.ctrl.multi_gpu:
+                loss, _ = net.module.forward_CTM(support_x, support_y, query_x, query_y, True)
+            else:
+                loss, _ = net.forward_CTM(support_x, support_y, query_x, query_y, True)
             loss = loss.mean(0)
             vis_loss = loss.data.cpu().numpy()
 
